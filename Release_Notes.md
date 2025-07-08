@@ -32,13 +32,33 @@ This directory contains the LSM6DSV80X component drivers.
 ::: {.collapse}
 <input type="checkbox" id="collapse-section1" aria-hidden="true">
 <label for="collapse-section1" aria-hidden="true">V1.0.0 / 21-Mar-2025</label>
-<div>			
+<div>
 
 ## Main changes
 
 ### First release
 
 - First official release [ref. DS v1.0]
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section2" checked aria-hidden="true">
+<label for="collapse-section2" aria-hidden="true">V1.1.0 / 07-Jul-2025</label>
+<div>
+
+## Main changes
+
+- Fix driver formatting options
+- Added pointer to private data in stmdev_ctx_t
+- Fix setting of few embedded registers
+- Fix wrong ODR enums values for HA02 and add HA03
+- Fix wrong address for register EMB_FUNC_SENSOR_CONV_EN
+- Set ois_drdy parameter in filt_settling_mask_get()
+- add from_f16_to_f32 API
+- fix fifo_fsm_batch_set/get APIs
+- Fix typo in fifo_out_raw_get() API
 
 ##
 
