@@ -3794,8 +3794,9 @@ float_t lsm6dsv80x_from_fs32_to_mg(int16_t lsb);
 float_t lsm6dsv80x_from_fs64_to_mg(int16_t lsb);
 float_t lsm6dsv80x_from_fs80_to_mg(int16_t lsb);
 
-float_t lsm6dsv80x_from_fs500_to_mdps(int16_t lsb);
+float_t lsm6dsv80x_from_fs125_to_mdps(int16_t lsb);
 float_t lsm6dsv80x_from_fs250_to_mdps(int16_t lsb);
+float_t lsm6dsv80x_from_fs500_to_mdps(int16_t lsb);
 float_t lsm6dsv80x_from_fs1000_to_mdps(int16_t lsb);
 float_t lsm6dsv80x_from_fs2000_to_mdps(int16_t lsb);
 float_t lsm6dsv80x_from_fs4000_to_mdps(int16_t lsb);
