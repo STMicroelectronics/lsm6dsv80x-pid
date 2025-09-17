@@ -4278,8 +4278,14 @@ int32_t lsm6dsv80x_fifo_compress_algo_real_time_set(const stmdev_ctx_t *ctx,
 int32_t lsm6dsv80x_fifo_compress_algo_real_time_get(const stmdev_ctx_t *ctx,
                                                     uint8_t *val);
 
-int32_t lsm6dsv80x_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, uint8_t val);
-int32_t lsm6dsv80x_fifo_stop_on_wtm_get(const stmdev_ctx_t *ctx, uint8_t *val);
+typedef enum
+{
+  LSM6DSV80X_FIFO_EV_WTM             = 0x0,
+  LSM6DSV80X_FIFO_EV_FULL            = 0x1,
+} lsm6dsv80x_fifo_event_t;
+
+int32_t lsm6dsv80x_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, lsm6dsv80x_fifo_event_t val);
+int32_t lsm6dsv80x_fifo_stop_on_wtm_get(const stmdev_ctx_t *ctx, lsm6dsv80x_fifo_event_t *val);
 
 typedef enum
 {
