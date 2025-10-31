@@ -155,7 +155,7 @@ float_t lsm6dsv80x_from_fs64_to_mg(int16_t lsb)
 
 float_t lsm6dsv80x_from_fs80_to_mg(int16_t lsb)
 {
-  return ((float_t)lsb) * 3.904;
+  return ((float_t)lsb) * 3.904f;
 }
 
 float_t lsm6dsv80x_from_fs125_to_mdps(int16_t lsb)
