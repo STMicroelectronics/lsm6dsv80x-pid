@@ -4910,9 +4910,9 @@ int32_t lsm6dsv80x_ui_sdo_pull_up_get(const stmdev_ctx_t *ctx, uint8_t *val);
 
 typedef enum
 {
-  LSM6DSV80X_PAD_LOW_STRENGTH     = 0x1,
-  LSM6DSV80X_PAD_MIDDLE_STRENGTH  = 0x2,
-  LSM6DSV80X_PAD_HIGH_STRENGTH    = 0x4,
+  LSM6DSV80X_PAD_LOW_STRENGTH     = 0x0,
+  LSM6DSV80X_PAD_MIDDLE_STRENGTH  = 0x1,
+  LSM6DSV80X_PAD_HIGH_STRENGTH    = 0x3,
 } lsm6dsv80x_pad_strength_t;
 int32_t lsm6dsv80x_pad_strength_set(const stmdev_ctx_t *ctx, lsm6dsv80x_pad_strength_t val);
 int32_t lsm6dsv80x_pad_strength_get(const stmdev_ctx_t *ctx, lsm6dsv80x_pad_strength_t *val);
