@@ -525,6 +525,11 @@ int32_t lsm6dsv80x_reboot(const stmdev_ctx_t *ctx)
 {
   lsm6dsv80x_ctrl3_t ctrl3;
   int32_t ret;
+  /* configuration to restore after reboot */
+  lsm6dsv80x_data_rate_t xl;
+  lsm6dsv80x_data_rate_t gy;
+  lsm6dsv80x_hg_xl_data_rate_t hg_xl;
+  uint8_t reg_out_en;
 
   if (ctx->mdelay == NULL)
   {
@@ -533,6 +538,15 @@ int32_t lsm6dsv80x_reboot(const stmdev_ctx_t *ctx)
   }
 
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL3, (uint8_t *)&ctrl3, 1);
+  if (ret != 0)
+  {
+    goto exit;
+  }
+
+  /* Save current data rates */
+  ret = lsm6dsv80x_xl_data_rate_get(ctx, &xl);
+  ret += lsm6dsv80x_gy_data_rate_get(ctx, &gy);
+  ret += lsm6dsv80x_hg_xl_data_rate_get(ctx, &hg_xl, &reg_out_en);
   if (ret != 0)
   {
     goto exit;
@@ -557,6 +571,11 @@ int32_t lsm6dsv80x_reboot(const stmdev_ctx_t *ctx)
 
   /* 3. Wait 30 ms. */
   ctx->mdelay(30);
+
+  /* Restore data rates */
+  ret = lsm6dsv80x_xl_data_rate_set(ctx, xl);
+  ret += lsm6dsv80x_gy_data_rate_set(ctx, gy);
+  ret += lsm6dsv80x_hg_xl_data_rate_set(ctx, hg_xl, reg_out_en);
 
 exit:
   return ret;
