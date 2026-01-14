@@ -9202,6 +9202,9 @@ int32_t lsm6dsv80x_sh_data_rate_get(const stmdev_ctx_t *ctx,
 
   switch (tgt0_config.shub_odr)
   {
+    case LSM6DSV80X_SH_1Hz875:
+      *val = LSM6DSV80X_SH_1Hz875;
+      break;
     case LSM6DSV80X_SH_15Hz:
       *val = LSM6DSV80X_SH_15Hz;
       break;
