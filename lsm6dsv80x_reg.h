@@ -1430,9 +1430,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t xl_hg_x_ofs_usr              : 8;
+  int8_t xl_hg_x_ofs_usr              : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t xl_hg_x_ofs_usr              : 8;
+  int8_t xl_hg_x_ofs_usr              : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_hg_x_ofs_usr_t;
 
@@ -1440,9 +1440,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t xl_hg_y_ofs_usr              : 8;
+  int8_t xl_hg_y_ofs_usr              : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t xl_hg_y_ofs_usr              : 8;
+  int8_t xl_hg_y_ofs_usr              : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_hg_y_ofs_usr_t;
 
@@ -1450,9 +1450,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t xl_hg_z_ofs_usr              : 8;
+  int8_t xl_hg_z_ofs_usr              : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t xl_hg_z_ofs_usr              : 8;
+  int8_t xl_hg_z_ofs_usr              : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_hg_z_ofs_usr_t;
 
@@ -1460,9 +1460,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t x_ofs_usr                    : 8;
+  int8_t x_ofs_usr                    : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t x_ofs_usr                    : 8;
+  int8_t x_ofs_usr                    : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_x_ofs_usr_t;
 
@@ -1470,9 +1470,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t y_ofs_usr                    : 8;
+  int8_t y_ofs_usr                    : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t y_ofs_usr                    : 8;
+  int8_t y_ofs_usr                    : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_y_ofs_usr_t;
 
@@ -1480,9 +1480,9 @@ typedef struct
 typedef struct
 {
 #if DRV_BYTE_ORDER == DRV_LITTLE_ENDIAN
-  uint8_t z_ofs_usr                    : 8;
+  int8_t z_ofs_usr                    : 8;
 #elif DRV_BYTE_ORDER == DRV_BIG_ENDIAN
-  uint8_t z_ofs_usr                    : 8;
+  int8_t z_ofs_usr                    : 8;
 #endif /* DRV_BYTE_ORDER */
 } lsm6dsv80x_z_ofs_usr_t;
 
