@@ -6032,6 +6032,80 @@ int32_t lsm6dsv80x_filt_gy_lp1_get(const stmdev_ctx_t *ctx, uint8_t *val)
 }
 
 /**
+  * @brief Setup xl filter pipeline from lpf1 filter to UI.
+  *
+  * @param  ctx      read / write interface definitions
+  * @param  filter   LSM6DSV80X_XL_FILT_LP_LPF2, LSM6DSV80X_XL_FILT_LP_LPF1,
+  *                  LSM6DSV80X_XL_FILT_HP, LSM6DSV80X_XL_FILT_HP_SLOPE.
+  * @param  bw       LSM6DSV80X_GY_ULTRA_LIGHT, LSM6DSV80X_GY_VERY_LIGHT,
+  *                  LSM6DSV80X_GY_LIGHT, LSM6DSV80X_GY_MEDIUM, LSM6DSV80X_GY_STRONG,
+  *                  LSM6DSV80X_GY_VERY_STRONG, LSM6DSV80X_GY_AGGRESSIVE, LSM6DSV80X_GY_XTREME
+  * @param  ref_mode Enables reference mode (Availabe only in LSM6DSV80X_XL_FILT_HP mode)
+  * @retval          interface status (MANDATORY: return 0 -> no Error)
+  *
+  */
+int32_t lsm6dsv80x_filt_xl_setup(const stmdev_ctx_t *ctx, lsm6dsv80x_xl_filter filter,
+                                 lsm6dsv80x_filt_xl_lp2_bandwidth_t bw, uint8_t hp_ref_mode_xl)
+{
+
+  int32_t ret;
+  lsm6dsv80x_ctrl8_t ctrl8;
+  lsm6dsv80x_ctrl9_t ctrl9;
+
+  if ((filter == LSM6DSV80X_XL_FILT_HP && bw == LSM6DSV80X_XL_ULTRA_LIGHT) ||
+      (hp_ref_mode_xl == 1 && filter != LSM6DSV80X_XL_FILT_HP) ||
+      // if bw == 0 slope filter is used istead of digital HP filter
+      (filter == LSM6DSV80X_XL_FILT_HP_SLOPE && (uint8_t)bw != 0x0))
+  {
+    ret = -1;
+    goto exit;
+  }
+
+  ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL8, (uint8_t *)&ctrl8, 1);
+  ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL9, (uint8_t *)&ctrl9, 1);
+
+  if (ret != 0)
+  {
+    goto exit;
+  }
+
+  if (filter == LSM6DSV80X_XL_FILT_LP_LPF2)
+  {
+    ctrl9.hp_slope_xl_en = 0;
+    ctrl9.lpf2_xl_en = 1;
+  }
+  else if (filter == LSM6DSV80X_XL_FILT_LP_LPF1)
+  {
+    ctrl9.hp_slope_xl_en = 0;
+    ctrl9.lpf2_xl_en = 0;
+  }
+  else if (filter == LSM6DSV80X_XL_FILT_HP)
+  {
+    ctrl9.hp_slope_xl_en = 1;
+    ctrl9.lpf2_xl_en = 0;
+  }
+  else if (filter == LSM6DSV80X_XL_FILT_HP_SLOPE)
+  {
+    ctrl9.hp_slope_xl_en = 1;
+    ctrl9.lpf2_xl_en = 0;
+  }
+  else
+  {
+    ret = -1;
+    goto exit;
+  }
+
+  ctrl8.hp_lpf2_xl_bw = (uint8_t)bw & 0x07U;
+  ctrl9.hp_ref_mode_xl = hp_ref_mode_xl;
+
+  ret = lsm6dsv80x_write_reg(ctx, LSM6DSV80X_CTRL8, (uint8_t *)&ctrl8, 1);
+  ret += lsm6dsv80x_write_reg(ctx, LSM6DSV80X_CTRL9, (uint8_t *)&ctrl9, 1);
+
+exit:
+  return ret;
+}
+
+/**
   * @brief  Accelerometer LPF2 and high pass filter configuration and cutoff setting.[set]
   *
   * @param  ctx      read / write interface definitions
@@ -6262,7 +6336,7 @@ int32_t lsm6dsv80x_filt_xl_fast_settling_get(const stmdev_ctx_t *ctx, uint8_t *v
   * @brief  Accelerometer high-pass filter mode.[set]
   *
   * @param  ctx      read / write interface definitions
-  * @param  val      HP_MD_NORMAL, HP_MD_REFERENCE,
+  * @param  val      HP_MD_NORMAL_SLOPE_ON, HP_MD_NORMAL_SLOPE_OFF HP_MD_REFERENCE,
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
@@ -6276,6 +6350,7 @@ int32_t lsm6dsv80x_filt_xl_hp_mode_set(const stmdev_ctx_t *ctx,
   if (ret == 0)
   {
     ctrl9.hp_ref_mode_xl = (uint8_t)val & 0x01U;
+    ctrl9.hp_slope_xl_en = ((uint8_t)val & 0x02U) >> 1;
     ret = lsm6dsv80x_write_reg(ctx, LSM6DSV80X_CTRL9, (uint8_t *)&ctrl9, 1);
   }
 
@@ -6286,7 +6361,7 @@ int32_t lsm6dsv80x_filt_xl_hp_mode_set(const stmdev_ctx_t *ctx,
   * @brief  Accelerometer high-pass filter mode.[get]
   *
   * @param  ctx      read / write interface definitions
-  * @param  val      HP_MD_NORMAL, HP_MD_REFERENCE,
+  * @param  val      HP_MD_NORMAL_SLOPE_ON, HP_MD_NORMAL_SLOPE_OFF, HP_MD_REFERENCE,
   * @retval          interface status (MANDATORY: return 0 -> no Error)
   *
   */
@@ -6297,15 +6372,20 @@ int32_t lsm6dsv80x_filt_xl_hp_mode_get(const stmdev_ctx_t *ctx,
   int32_t ret;
 
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL9, (uint8_t *)&ctrl9, 1);
+
   if (ret != 0)
   {
     return ret;
   }
 
-  switch (ctrl9.hp_ref_mode_xl)
+  switch (ctrl9.hp_ref_mode_xl | (ctrl9.hp_slope_xl_en << 1))
   {
-    case LSM6DSV80X_HP_MD_NORMAL:
-      *val = LSM6DSV80X_HP_MD_NORMAL;
+    case LSM6DSV80X_HP_MD_NORMAL_SLOPE_ON:
+      *val = LSM6DSV80X_HP_MD_NORMAL_SLOPE_ON;
+      break;
+
+    case LSM6DSV80X_HP_MD_NORMAL_SLOPE_OFF:
+      *val = LSM6DSV80X_HP_MD_NORMAL_SLOPE_OFF;
       break;
 
     case LSM6DSV80X_HP_MD_REFERENCE:
@@ -6313,7 +6393,7 @@ int32_t lsm6dsv80x_filt_xl_hp_mode_get(const stmdev_ctx_t *ctx,
       break;
 
     default:
-      *val = LSM6DSV80X_HP_MD_NORMAL;
+      *val = LSM6DSV80X_HP_MD_NORMAL_SLOPE_OFF;
       break;
   }
 

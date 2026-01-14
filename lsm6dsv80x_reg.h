@@ -4515,6 +4515,16 @@ int32_t lsm6dsv80x_filt_xl_lp2_bandwidth_set(const stmdev_ctx_t *ctx,
                                              lsm6dsv80x_filt_xl_lp2_bandwidth_t val);
 int32_t lsm6dsv80x_filt_xl_lp2_bandwidth_get(const stmdev_ctx_t *ctx,
                                              lsm6dsv80x_filt_xl_lp2_bandwidth_t *val);
+typedef enum
+{
+  LSM6DSV80X_XL_FILT_LP_LPF2,
+  LSM6DSV80X_XL_FILT_LP_LPF1,
+  LSM6DSV80X_XL_FILT_HP,
+  LSM6DSV80X_XL_FILT_HP_SLOPE
+} lsm6dsv80x_xl_filter;
+
+int32_t lsm6dsv80x_filt_xl_setup(const stmdev_ctx_t *ctx, lsm6dsv80x_xl_filter filter,
+                                 lsm6dsv80x_filt_xl_lp2_bandwidth_t bw, uint8_t hp_ref_mode_xl);
 
 int32_t lsm6dsv80x_filt_xl_lp2_set(const stmdev_ctx_t *ctx, uint8_t val);
 int32_t lsm6dsv80x_filt_xl_lp2_get(const stmdev_ctx_t *ctx, uint8_t *val);
@@ -4527,8 +4537,9 @@ int32_t lsm6dsv80x_filt_xl_fast_settling_get(const stmdev_ctx_t *ctx, uint8_t *v
 
 typedef enum
 {
-  LSM6DSV80X_HP_MD_NORMAL    = 0x0,
-  LSM6DSV80X_HP_MD_REFERENCE = 0x1,
+  LSM6DSV80X_HP_MD_NORMAL_SLOPE_ON     = 0x2,
+  LSM6DSV80X_HP_MD_NORMAL_SLOPE_OFF    = 0x0,
+  LSM6DSV80X_HP_MD_REFERENCE           = 0x3,
 } lsm6dsv80x_filt_xl_hp_mode_t;
 int32_t lsm6dsv80x_filt_xl_hp_mode_set(const stmdev_ctx_t *ctx,
                                        lsm6dsv80x_filt_xl_hp_mode_t val);
