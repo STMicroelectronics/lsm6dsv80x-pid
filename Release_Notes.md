@@ -93,7 +93,7 @@ This directory contains the LSM6DSV80X component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section5" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section5" aria-hidden="true">
 <label for="collapse-section5" aria-hidden="true">V4.0.0 / 05-Nov-2025</label>
 <div>
 
@@ -101,6 +101,30 @@ This directory contains the LSM6DSV80X component drivers.
 
 - fix from_fs80_to_mg() API
 - Upgrade reset APIs
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section6" checked aria-hidden="true">
+<label for="collapse-section6" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
+<div>
+
+## Main changes
+
+- Converted I2C address representation from 7-bit to 8-bit in sensor-hub
+- Add haodr_set, xl_setup and gy_setup to comply with the AN
+- Improved docs: hg_xl_data_rate_set, fix typo in filt_xl_setup
+- Split pin_int for clearer configuration.
+- Fix pad_strength values
+- Add missing variant (1.875Hz) for sh_data_rate enum
+- Fix reboot by restoring previous data rates after reboot
+- Fix filt_wkup_act_feed enum values
+- Add check on idx for sensorhub target
+- Add filt_xl_setup API to handle filter lpf2 settings
+- Add power-off gyro when changing the full-scale
+- Fix type for x/y/z_ofs_usr. Change type from uint8_t to int8_t
+- Add read for ctrl9 in xl_offset_mg_set and improved doc
 
 ##
 
