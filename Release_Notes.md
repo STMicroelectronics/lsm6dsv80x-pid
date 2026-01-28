@@ -106,7 +106,7 @@ This directory contains the LSM6DSV80X component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section6" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section6" aria-hidden="true">
 <label for="collapse-section6" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
 <div>
 
@@ -125,6 +125,19 @@ This directory contains the LSM6DSV80X component drivers.
 - Add power-off gyro when changing the full-scale
 - Fix type for x/y/z_ofs_usr. Change type from uint8_t to int8_t
 - Add read for ctrl9 in xl_offset_mg_set and improved doc
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<label for="collapse-section7" aria-hidden="true">V5.1.0 / 28-Jan-2026</label>
+<div>
+
+## Main changes
+
+- Move doxygen comment blocks from .c to .h
+- Fix [deprecated] clause
 
 ##
 
