@@ -30,15 +30,79 @@ This directory contains the LSM6DSV80X component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section1" aria-hidden="true">
-<label for="collapse-section1" aria-hidden="true">V1.0.0 / 21-Mar-2025</label>
+<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
+<label for="collapse-section7" aria-hidden="true">V5.1.0 / 28-Jan-2026</label>
 <div>
 
 ## Main changes
 
-### First release
+- Move doxygen comment blocks from .c to .h
+- Fix [deprecated] clause
 
-- First official release [ref. DS v1.0]
+##
+
+</div>
+<input type="checkbox" id="collapse-section6" aria-hidden="true">
+<label for="collapse-section6" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
+<div>
+
+## Main changes
+
+- Converted I2C address representation from 7-bit to 8-bit in sensor-hub
+- Add haodr_set, xl_setup and gy_setup to comply with the AN
+- Improved docs: hg_xl_data_rate_set, fix typo in filt_xl_setup
+- Split pin_int for clearer configuration.
+- Fix pad_strength values
+- Add missing variant (1.875Hz) for sh_data_rate enum
+- Fix reboot by restoring previous data rates after reboot
+- Fix filt_wkup_act_feed enum values
+- Add check on idx for sensorhub target
+- Add filt_xl_setup API to handle filter lpf2 settings
+- Add power-off gyro when changing the full-scale
+- Fix type for x/y/z_ofs_usr. Change type from uint8_t to int8_t
+- Add read for ctrl9 in xl_offset_mg_set and improved doc
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section5" aria-hidden="true">
+<label for="collapse-section5" aria-hidden="true">V4.0.0 / 05-Nov-2025</label>
+<div>
+
+## Main changes
+
+- fix from_fs80_to_mg() API
+- Upgrade reset APIs
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section4" aria-hidden="true">
+<label for="collapse-section4" aria-hidden="true">V3.0.0 / 17-Sep-2025</label>
+<div>
+
+## Main changes
+
+- Add routine to reset SFLP game rotation logic
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section3" aria-hidden="true">
+<label for="collapse-section3" aria-hidden="true">V2.0.0 / 17-Sep-2025</label>
+<div>
+
+## Main changes
+
+- Added from_fs125_to_mdps() conversion API
+- Added checks before writes to avoid random content from being written
+- Fixed reset_set API wrong boot and sw_reset settings
+- Added fifo_event_t enum for stop_on_wtm_set/get functions
+- Fix fifo_batch_counter_threshold_set/get
+- Adding CODE_OF_CONDUCT.md and SECURITY.md
 
 ##
 
@@ -64,84 +128,20 @@ This directory contains the LSM6DSV80X component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section3" aria-hidden="true">
-<label for="collapse-section3" aria-hidden="true">V2.0.0 / 17-Sep-2025</label>
+<input type="checkbox" id="collapse-section1" aria-hidden="true">
+<label for="collapse-section1" aria-hidden="true">V1.0.0 / 21-Mar-2025</label>
 <div>
 
 ## Main changes
 
-- Added from_fs125_to_mdps() conversion API
-- Added checks before writes to avoid random content from being written
-- Fixed reset_set API wrong boot and sw_reset settings
-- Added fifo_event_t enum for stop_on_wtm_set/get functions
-- Fix fifo_batch_counter_threshold_set/get
-- Adding CODE_OF_CONDUCT.md and SECURITY.md
+### First release
+
+- First official release [ref. DS v1.0]
 
 ##
 
 </div>
 
-<input type="checkbox" id="collapse-section4" aria-hidden="true">
-<label for="collapse-section4" aria-hidden="true">V3.0.0 / 17-Sep-2025</label>
-<div>
-
-## Main changes
-
-- Add routine to reset SFLP game rotation logic
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section5" aria-hidden="true">
-<label for="collapse-section5" aria-hidden="true">V4.0.0 / 05-Nov-2025</label>
-<div>
-
-## Main changes
-
-- fix from_fs80_to_mg() API
-- Upgrade reset APIs
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section6" aria-hidden="true">
-<label for="collapse-section6" aria-hidden="true">V5.0.0 / 15-Jan-2026</label>
-<div>
-
-## Main changes
-
-- Converted I2C address representation from 7-bit to 8-bit in sensor-hub
-- Add haodr_set, xl_setup and gy_setup to comply with the AN
-- Improved docs: hg_xl_data_rate_set, fix typo in filt_xl_setup
-- Split pin_int for clearer configuration.
-- Fix pad_strength values
-- Add missing variant (1.875Hz) for sh_data_rate enum
-- Fix reboot by restoring previous data rates after reboot
-- Fix filt_wkup_act_feed enum values
-- Add check on idx for sensorhub target
-- Add filt_xl_setup API to handle filter lpf2 settings
-- Add power-off gyro when changing the full-scale
-- Fix type for x/y/z_ofs_usr. Change type from uint8_t to int8_t
-- Add read for ctrl9 in xl_offset_mg_set and improved doc
-
-##
-
-</div>
-
-<input type="checkbox" id="collapse-section7" checked aria-hidden="true">
-<label for="collapse-section7" aria-hidden="true">V5.1.0 / 28-Jan-2026</label>
-<div>
-
-## Main changes
-
-- Move doxygen comment blocks from .c to .h
-- Fix [deprecated] clause
-
-##
-
-</div>
 :::
 
 
