@@ -35,7 +35,7 @@ extern "C" {
   *
   */
 
-/** @defgroup  Endianness definitions
+/** @defgroup endiannes_def Endianness definitions
   * @{
   *
   */
