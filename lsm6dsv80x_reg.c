@@ -3399,14 +3399,10 @@ int32_t lsm6dsv80x_sflp_quaternion_raw_get(const stmdev_ctx_t *ctx, uint16_t *va
     return ret;
   }
 
-  val[0] = (uint16_t)buff[1];
-  val[0] = (val[0] * 256) + (uint16_t)buff[0];
-  val[1] = (uint16_t)buff[3];
-  val[1] = (val[1] * 256) + (uint16_t)buff[2];
-  val[2] = (uint16_t)buff[5];
-  val[2] = (val[2] * 256) + (uint16_t)buff[4];
-  val[3] = (uint16_t)buff[7];
-  val[3] = (val[3] * 256) + (uint16_t)buff[6];
+  val[0] = (uint16_t)(((uint16_t)buff[1] << 8) | (uint16_t)buff[0]);
+  val[1] = (uint16_t)(((uint16_t)buff[3] << 8) | (uint16_t)buff[2]);
+  val[2] = (uint16_t)(((uint16_t)buff[5] << 8) | (uint16_t)buff[4]);
+  val[3] = (uint16_t)(((uint16_t)buff[7] << 8) | (uint16_t)buff[6]);
 
   return ret;
 }
@@ -3593,7 +3589,7 @@ int32_t lsm6dsv80x_ln_pg_write(const stmdev_ctx_t *ctx, uint16_t address,
     goto exit;
   }
 
-  for (i = 0; ((i < len) && (ret == 0)); i++)
+  for (i = 0; i < len; i++)
   {
     ret += lsm6dsv80x_write_reg(ctx, LSM6DSV80X_PAGE_VALUE, &buf[i], 1);
     if (ret != 0)
@@ -3604,7 +3600,7 @@ int32_t lsm6dsv80x_ln_pg_write(const stmdev_ctx_t *ctx, uint16_t address,
     lsb++;
 
     /* Check if page wrap */
-    if (((lsb & 0xFFU) == 0x00U) && (ret == 0))
+    if ((lsb & 0xFFU) == 0x00U)
     {
       msb++;
       ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_PAGE_SEL, (uint8_t *)&page_sel, 1);
@@ -3705,7 +3701,7 @@ int32_t lsm6dsv80x_ln_pg_read(const stmdev_ctx_t *ctx, uint16_t address, uint8_t
     goto exit;
   }
 
-  for (i = 0; ((i < len) && (ret == 0)); i++)
+  for (i = 0; i < len; i++)
   {
     ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_PAGE_VALUE, &buf[i], 1);
     if (ret != 0)
@@ -3716,7 +3712,7 @@ int32_t lsm6dsv80x_ln_pg_read(const stmdev_ctx_t *ctx, uint16_t address, uint8_t
     lsb++;
 
     /* Check if page wrap */
-    if (((lsb & 0xFFU) == 0x00U) && (ret == 0))
+    if ((lsb & 0xFFU) == 0x00U)
     {
       msb++;
       ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_PAGE_SEL, (uint8_t *)&page_sel, 1);
@@ -4030,7 +4026,7 @@ int32_t lsm6dsv80x_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, lsm6dsv80x_fifo
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_FIFO_CTRL2, (uint8_t *)&fifo_ctrl2, 1);
   if (ret == 0)
   {
-    fifo_ctrl2.stop_on_wtm = (val == LSM6DSV80X_FIFO_EV_WTM) ? 1 : 0;
+    fifo_ctrl2.stop_on_wtm = (val == LSM6DSV80X_FIFO_EV_WTM) ? 1U : 0U;
     ret = lsm6dsv80x_write_reg(ctx, LSM6DSV80X_FIFO_CTRL2, (uint8_t *)&fifo_ctrl2, 1);
   }
 
@@ -4049,7 +4045,7 @@ int32_t lsm6dsv80x_fifo_stop_on_wtm_get(const stmdev_ctx_t *ctx, lsm6dsv80x_fifo
     return ret;
   }
 
-  *val = (fifo_ctrl2.stop_on_wtm == 1) ? LSM6DSV80X_FIFO_EV_WTM : LSM6DSV80X_FIFO_EV_FULL;
+  *val = (fifo_ctrl2.stop_on_wtm == 1U) ? LSM6DSV80X_FIFO_EV_WTM : LSM6DSV80X_FIFO_EV_FULL;
 
   return ret;
 }
@@ -4924,7 +4920,7 @@ int32_t lsm6dsv80x_fifo_sh_batch_target_set(const stmdev_ctx_t *ctx, uint8_t idx
   lsm6dsv80x_tgt0_config_t tgt_config = {0};
   int32_t ret = 0;
 
-  if (idx > 3)
+  if (idx > 3U)
   {
     return -1;
   }
@@ -4955,7 +4951,7 @@ int32_t lsm6dsv80x_fifo_sh_batch_target_get(const stmdev_ctx_t *ctx, uint8_t idx
   lsm6dsv80x_tgt0_config_t tgt_config = {0};
   int32_t ret = 0;
 
-  if (idx > 3)
+  if (idx > 3U)
   {
     return -1;
   }
@@ -5260,9 +5256,9 @@ int32_t lsm6dsv80x_filt_xl_setup(const stmdev_ctx_t *ctx, lsm6dsv80x_xl_filter f
   lsm6dsv80x_ctrl9_t ctrl9 = {0};
 
   if ((filter == LSM6DSV80X_XL_FILT_HP && bw == LSM6DSV80X_XL_ULTRA_LIGHT) ||
-      (hp_ref_mode_xl == 1 && filter != LSM6DSV80X_XL_FILT_HP) ||
+      (hp_ref_mode_xl == 1U && filter != LSM6DSV80X_XL_FILT_HP) ||
       // if bw == 0 slope filter is used instead of digital HP filter
-      (filter == LSM6DSV80X_XL_FILT_HP_SLOPE && (uint8_t)bw != 0x0))
+      (filter == LSM6DSV80X_XL_FILT_HP_SLOPE && (uint8_t)bw != 0x0U))
   {
     ret = -1;
     goto exit;
