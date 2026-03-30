@@ -591,6 +591,27 @@ int32_t lsm6dsv80x_xl_setup(
   lsm6dsv80x_haodr_cfg_t haodr = {0};
   uint8_t xl_ha = ((uint8_t) xl_odr >> 4) & 0xFU;
   uint8_t both_on = 0;
+  uint8_t buff[2] = {0};
+
+  if (xl_odr == LSM6DSV80X_ODR_UNCHANGED)
+  {
+    ret = lsm6dsv80x_xl_data_rate_get(ctx, &xl_odr);
+
+    if (ret != 0)
+    {
+      return ret;
+    }
+  }
+
+  if (xl_mode == LSM6DSV80X_XL_UNCHANGED_MD)
+  {
+    ret = lsm6dsv80x_xl_mode_get(ctx, &xl_mode);
+
+    if (ret != 0)
+    {
+      return ret;
+    }
+  }
 
   // Table 9 of AN6281
   // 1.875 Hz allowed only in Low-power modes
@@ -639,7 +660,6 @@ int32_t lsm6dsv80x_xl_setup(
     goto exit;
   }
 
-  uint8_t buff[2];
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL1, buff, 2);
   ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_HAODR_CFG, (uint8_t *)&haodr, 1);
 
@@ -706,6 +726,27 @@ int32_t lsm6dsv80x_gy_setup(
   lsm6dsv80x_haodr_cfg_t haodr = {0};
   uint8_t gy_ha = ((uint8_t) gy_odr >> 4) & 0xFU;
   uint8_t both_on = 0;
+  uint8_t buff[2] = {0};
+
+  if (gy_odr == LSM6DSV80X_ODR_UNCHANGED)
+  {
+    ret = lsm6dsv80x_gy_data_rate_get(ctx, &gy_odr);
+
+    if (ret != 0)
+    {
+      return ret;
+    }
+  }
+
+  if (gy_mode == LSM6DSV80X_GY_UNCHANGED_MD)
+  {
+    ret = lsm6dsv80x_gy_mode_get(ctx, &gy_mode);
+
+    if (ret != 0)
+    {
+      return ret;
+    }
+  }
 
   // Table 12 of AN6281
   // 7.5Hz with HAODR mode enable, is already handled by the enum selection
@@ -732,7 +773,6 @@ int32_t lsm6dsv80x_gy_setup(
     goto exit;
   }
 
-  uint8_t buff[2];
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_CTRL1, buff, 2);
   ret += lsm6dsv80x_read_reg(ctx, LSM6DSV80X_HAODR_CFG, (uint8_t *)&haodr, 1);
 
