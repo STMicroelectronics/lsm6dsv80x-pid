@@ -7701,7 +7701,7 @@ int32_t lsm6dsv80x_sh_cfg_write(const stmdev_ctx_t *ctx,
     goto exit;
   }
 
-  reg.target0_add = (val->tgt0_add >> 1) & 0x07U;
+  reg.target0_add = (val->tgt0_add >> 1) & 0x7FU;
   reg.rw_0 = 0;
   ret = lsm6dsv80x_write_reg(ctx, LSM6DSV80X_TGT0_ADD, (uint8_t *)&reg, 1);
   if (ret != 0)
@@ -7819,7 +7819,7 @@ int32_t lsm6dsv80x_sh_tgt_cfg_read(const stmdev_ctx_t *ctx, uint8_t idx,
     return ret;
   }
 
-  tgt_add.target0_add = (val->tgt_add >> 1) & 0x07U;
+  tgt_add.target0_add = (val->tgt_add >> 1) & 0x7FU;
   tgt_add.rw_0 = 1;
   ret = lsm6dsv80x_write_reg(ctx, LSM6DSV80X_TGT0_ADD + (uint8_t)(idx * 3U),
                              (uint8_t *)&tgt_add, 1);
