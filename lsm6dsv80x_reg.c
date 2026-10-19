@@ -7846,10 +7846,10 @@ int32_t lsm6dsv80x_timestamp_raw_get(const stmdev_ctx_t *ctx, uint32_t *val)
   ret = lsm6dsv80x_read_reg(ctx, LSM6DSV80X_TIMESTAMP0, &buff[0], 4);
   if (ret != 0) { return ret; }
 
-  *val = (uint32_t)buff[3] << 8;
-  *val = (*val | (uint32_t)buff[2]) << 8;
-  *val = (*val | (uint32_t)buff[1]) << 8;
-  *val = (*val | (uint32_t)buff[0]) << 8;
+  *val = buff[3];
+  *val = (*val * 256U) + buff[2];
+  *val = (*val * 256U) + buff[1];
+  *val = (*val * 256U) + buff[0];
 
   return ret;
 }
